@@ -7,7 +7,10 @@ class Epub:
         self.file_path: str
         self.contents: dict[str, bytes]
 
-        # Validate the file path and assign
+        self._load_file_path(file_path)
+        self._load_contents()
+    
+    def _load_file_path(self, file_path: str):
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"File not found: {file_path}")
         if not os.path.isfile(file_path):
@@ -16,14 +19,14 @@ class Epub:
             raise ValueError(f"Invalid file type: {file_path}. Expected .epub file.")
         self.file_path = file_path
 
-        # Load file contents
+    def _load_contents(self):
         self.contents = {}
         try:
-            with zipfile.ZipFile(file_path, 'r') as zin:
+            with zipfile.ZipFile(self.file_path, 'r') as zin:
                 for name in zin.namelist():
                     self.contents[name] = zin.read(name)
         except zipfile.BadZipFile:
-            raise ValueError(f"Invalid EPUB file: {file_path}. Cannot open as zip.")
+            raise ValueError(f"Invalid EPUB file: {self.file_path}. Cannot open as zip.")
 
 if __name__ == "__main__":
     try:
