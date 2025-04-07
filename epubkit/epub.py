@@ -4,8 +4,8 @@ import zipfile
 class Epub:
     def __init__(self, file_path: str):
         # Initialize Members
-        self.file_path: str = None
-        self.contents: dict = None
+        self.file_path: str
+        self.contents: dict[str, bytes]
 
         # Validate the file path and assign
         if not os.path.exists(file_path):
