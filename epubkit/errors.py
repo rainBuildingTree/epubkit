@@ -1,0 +1,2 @@
+class InvalidEpubError(Exception):
+    pass
